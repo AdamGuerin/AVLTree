@@ -20,6 +20,7 @@ void LeftBalance(NodeType*& tree, bool& taller);
 void RotateRight(NodeType*& tree);
 void RotateLeft(NodeType*& tree);
 void Insert(NodeType*& tree, string item, bool& taller);
+void Retrieve(NodeType* tree, string item, bool& found);
 
 
 class TreeType {
@@ -31,6 +32,7 @@ public:
 	bool isFull() const;
 	void InsertItem(string item);
 	void PrintTree() const;
+	void RetrieveItem(string item, bool& found);
 private:
 	NodeType *root;
 };
@@ -83,6 +85,32 @@ void TreeType::InsertItem(string item)
 	Insert(root, item, taller);
 }
 
+void TreeType::RetrieveItem(string item, bool& found) {
+	Retrieve(root,item,found);
+}
+
+void Retrieve(NodeType* tree, string item, bool& found) {
+	if (tree == NULL)
+	{
+		found = false;
+	}
+	else if (item[0] < tree->data[0])
+	{
+		Retrieve(tree->left, item, found);
+	}
+	else if (item[0] > tree->data[0])
+	{
+		Retrieve(tree->right, item, found);
+	}
+	else
+	{
+		Retrieve(tree->left, item, found);
+		cout << tree->data;
+		Retrieve(tree->right, item, found);
+		found = true;
+	}
+}
+
 void Insert(NodeType*& tree, string item, bool& taller)
 {
 	if (tree == NULL)
@@ -93,6 +121,7 @@ void Insert(NodeType*& tree, string item, bool& taller)
 		tree->data = item;
 		tree->bf = EH;
 		taller = true;
+		cout << "Item added!";
 	}
 	else if (item == tree->data)
 	{
