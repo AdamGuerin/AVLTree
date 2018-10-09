@@ -285,7 +285,24 @@ void Print(NodeType* tree)
 	if (tree != NULL)
 	{
 		Print(tree->left);
-		cout << tree->data << endl;
+		cout << tree->data;
+		if (tree->left == NULL)
+		{
+			cout << " Left: Leaf.";
+		}
+		else
+		{
+			cout << " Left: " + tree->left->data;
+		}
+
+		if (tree->right == NULL)
+		{
+			cout << " Right: Leaf.\n";
+		}
+		else
+		{
+			cout << " Right: " + tree->right->data << endl;
+		}
 		Print(tree->right);
 	}
 }

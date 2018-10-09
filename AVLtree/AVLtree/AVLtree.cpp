@@ -70,19 +70,19 @@ void addItem()
 void populateTree() 
 {
 	string name;
-	name = "Adam";
+	name = "A";
 	tree.InsertItem(name);
 
-	name = "Jack";
+	name = "B";
 	tree.InsertItem(name);
 
-	name = "Gavin";
+	name = "C";
 	tree.InsertItem(name);
 
-	name = "Mark";
+	name = "D";
 	tree.InsertItem(name);
 
-	name = "Nazmul";
+	name = "E";
 	tree.InsertItem(name);
 }
 
