@@ -73,16 +73,19 @@ void populateTree()
 	name = "A";
 	tree.InsertItem(name);
 
+	name = "Z";
+	tree.InsertItem(name);
+
 	name = "B";
+	tree.InsertItem(name);
+
+	name = "Y";
 	tree.InsertItem(name);
 
 	name = "C";
 	tree.InsertItem(name);
 
-	name = "D";
-	tree.InsertItem(name);
-
-	name = "E";
+	name = "X";
 	tree.InsertItem(name);
 }
 

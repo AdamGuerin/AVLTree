@@ -297,11 +297,24 @@ void Print(NodeType* tree)
 
 		if (tree->right == NULL)
 		{
-			cout << " Right: Leaf.\n";
+			cout << " Right: Leaf.";
 		}
 		else
 		{
-			cout << " Right: " + tree->right->data << endl;
+			cout << " Right: " + tree->right->data;
+		}
+
+		switch (tree->bf)
+		{
+		case LH:
+			cout << " BF: LH.\n";
+			break;
+		case EH:
+			cout << " BF: EH.\n";
+			break;
+		case RH:
+			cout << " BF: RH.\n";
+			break;
 		}
 		Print(tree->right);
 	}
