@@ -21,6 +21,11 @@ void RotateRight(NodeType*& tree);
 void RotateLeft(NodeType*& tree);
 void Insert(NodeType*& tree, string item, bool& taller);
 void Retrieve(NodeType* tree, string item, bool& found);
+void Delete(NodeType*& tree, string item, bool& shorter);
+void DeleteNode(NodeType*& tree, bool& shorter);
+void GetPredecessor(NodeType* tree, string data);
+void DelRightBalance(NodeType*& tree, bool& shorter);
+void DelLeftBalance(NodeType*& tree, bool& shorter);
 
 
 class TreeType {
@@ -33,6 +38,7 @@ public:
 	void InsertItem(string item);
 	void PrintTree() const;
 	void RetrieveItem(string item, bool& found);
+	void DeleteItem(string item);
 private:
 	NodeType *root;
 };
@@ -77,6 +83,62 @@ bool TreeType::isFull() const
 void TreeType::PrintTree() const
 {
 	Print(root);
+}
+
+void TreeType::DeleteItem(string item) {
+	bool shorter;
+	Delete(root, item, shorter);
+}
+
+void Delete(NodeType*& tree, string item, bool& shorter){
+	if (tree != NULL)
+	{
+		if (item < tree->data)
+		{
+			Delete(tree->left, item, shorter);
+			if (shorter)
+			{
+				switch (tree->bf)
+				{
+				case LH:
+					tree->bf = EH;
+					break;
+				case EH:
+					tree->bf = RH;
+					shorter = false;
+					break;
+				case RH:
+					DelRightBalance(tree,shorter);
+					break;
+				}
+			}
+		}
+		else if (item > tree->data) {
+			Delete(tree->right, item, shorter);
+			if (shorter)
+			{
+				switch (tree->bf)
+				{
+				case LH:
+					DelLeftBalance(tree,shorter);
+					break;
+				case EH:
+					tree->bf = LH;
+					shorter = false;
+					break;
+				case RH:
+					tree->bf = EH;
+					break;
+				}
+			}
+		}
+		else {
+			DeleteNode(tree, shorter);
+		}
+	}
+	else {
+		cout << "\nNOTE:" << item << " not in the tree so cannot be deleted.";
+	}
 }
 
 void TreeType::InsertItem(string item)
@@ -317,5 +379,131 @@ void Print(NodeType* tree)
 			break;
 		}
 		Print(tree->right);
+	}
+}
+
+void DeleteNode(NodeType*& tree, bool& shorter) {
+	string data;
+	NodeType* tempPtr;
+	tempPtr = tree;
+	if (tree->left == NULL)
+	{
+		tree = tree->right;
+		delete tempPtr;
+		shorter = true;
+	}
+	else if (tree->right == NULL) {
+		tree = tree->left;
+		delete tempPtr;
+		shorter = true;
+	}
+	else
+	{
+		GetPredecessor(tree,data);
+		tree->data = data;
+		Delete(tree->left, data, shorter);
+		if (shorter)
+		{
+			switch (tree->bf)
+			{
+			case LH:
+				tree->bf = EH;
+				break;
+			case EH:
+				tree->bf = RH;
+				shorter = false;
+				break;
+			case RH:
+				DelRightBalance(tree,shorter);
+				break;
+			}
+		}
+	}
+}
+
+void GetPredecessor(NodeType* tree, string data) {
+	tree = tree->left;
+	while (tree->right != NULL) {
+		tree = tree->right;
+	}
+	data = tree->data;
+}
+
+void DelRightBalance(NodeType*& tree, bool& shorter) {
+	NodeType* rs = tree->right;
+	NodeType* ls;
+
+	switch (rs->bf)
+	{
+	case RH:
+		tree->bf = rs->bf = EH;
+		RotateLeft(tree);
+		shorter = true;
+		break;
+	case EH:
+		tree->bf = RH;
+		rs->bf = LH;
+		RotateLeft(tree);
+		shorter = false;
+	case LH:
+		ls = rs->left;
+		switch (ls->bf)
+		{
+		case RH:
+			tree->bf = LH;
+			rs->bf = EH;
+			break;
+		case EH:
+			tree->bf = rs->bf = EH;
+			break;
+		case LH:
+			tree->bf = EH;
+			rs->bf = RH;
+			break;
+		}
+		ls->bf = EH;
+		RotateRight(tree->right);
+		RotateLeft(tree);
+		shorter = true;
+	}
+}
+
+void DelLeftBalance(NodeType*& tree, bool& shorter) {
+	NodeType* ls = tree->left;
+	NodeType* rs;
+
+	switch (ls->bf)
+	{
+	case LH:
+		tree->bf = ls->bf = EH;
+		RotateRight(tree);
+		shorter = true;
+		break;
+	case EH:
+		tree->bf = LH;
+		ls->bf = RH;
+		RotateRight(tree);
+		shorter = false;
+		break;
+	case RH:
+		rs = ls->right;
+		switch (rs->bf)
+		{
+		case LH:
+			tree->bf = RH;
+			ls->bf = EH;
+			break;
+		case EH:
+			tree->bf = ls->bf = EH;
+			break;
+		case RH:
+			tree->bf = EH;
+			ls->bf = LH;
+			break;
+		}
+		rs->bf = EH;
+		RotateLeft(tree->left);
+		RotateRight(tree);
+		shorter = false;
 	}
 }

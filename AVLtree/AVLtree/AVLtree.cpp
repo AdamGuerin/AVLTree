@@ -12,6 +12,7 @@ void printAll();
 void addItem();
 void populateTree();
 void searchByName();
+void deleteName();
 
 TreeType tree;
 
@@ -36,12 +37,15 @@ int main()
 		case '3':
 			searchByName();
 			break;
+		case '4':
+			deleteName();
+			break;
 		default:
 			break;
 		}
 		cout << endl;
 		system("pause");
-	} while (option != '4');
+	} while (option != '5');
 
     return 0;
 }
@@ -50,7 +54,8 @@ void printMenu() {
 	cout << "1) Add new Entry \n";
 	cout << "2) Display tree. \n";
 	cout << "3) Search by name. \n";
-	cout << "4) Exit. \n";
+	cout << "4) Delete name. \n";
+	cout << "5) Exit. \n";
 	cout << "Please enter in your option: ";
 }
 
@@ -95,4 +100,12 @@ void searchByName() {
 	cin >> temp;
 	bool found = false;
 	tree.RetrieveItem(temp, found);
+}
+
+void deleteName() {
+	cout << "Please enter a name you would like to delete: ";
+	string temp;
+	cin >> temp;
+	tree.DeleteItem(temp);
+	cout << temp << " has been deleted from the tree.";
 }
