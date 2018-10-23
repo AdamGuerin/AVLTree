@@ -23,7 +23,7 @@ void Insert(NodeType*& tree, string item, bool& taller);
 void Retrieve(NodeType* tree, string item, bool& found);
 void Delete(NodeType*& tree, string item, bool& shorter);
 void DeleteNode(NodeType*& tree, bool& shorter);
-void GetPredecessor(NodeType* tree, string data);
+void GetPredecessor(NodeType* tree, string& data);
 void DelRightBalance(NodeType*& tree, bool& shorter);
 void DelLeftBalance(NodeType*& tree, bool& shorter);
 
@@ -421,7 +421,7 @@ void DeleteNode(NodeType*& tree, bool& shorter) {
 	}
 }
 
-void GetPredecessor(NodeType* tree, string data) {
+void GetPredecessor(NodeType* tree, string& data) {
 	tree = tree->left;
 	while (tree->right != NULL) {
 		tree = tree->right;
