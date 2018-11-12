@@ -3,7 +3,6 @@
 #include <iostream>
 using namespace std;
 
-
 typedef enum {LH,EH,RH} BalFactor;
 
 struct NodeType {
